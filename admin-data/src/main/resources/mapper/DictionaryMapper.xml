@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.admin.data.mapper.DictionaryMapper">
+
+    <resultMap id="dictionaryMap" type="com.example.admin.data.entity.Dictionary">
+        <result column="dict_key" property="key"/>
+        <result column="dict_value" property="value"/>
+        <result column="lang" property="locale"/>
+        <result column="description" property="desc"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <select id="query" parameterType="com.example.admin.data.vo.DictionaryVO" resultMap="dictionaryMap">
+        select * from tbl_dict
+        <include refid="searchSql" />
+        order by dict_key, lang
+        <include refid="limitSql" />
+    </select>
+
+    <select id="queryCount" parameterType="com.example.admin.data.vo.ConfigVO" resultType="long">
+        select count(1) from tbl_config
+        <include refid="searchSql" />
+    </select>
+
+    <sql id="searchSql">
+        <where>
+            <if test="query!=null">
+                and <![CDATA[
+                    (dict_key like '%#{query}%' or dict_value like '%#{query}%' or description like '%#{query}%')
+                ]]>
+            </if>
+        </where>
+    </sql>
+
+    <sql id="limitSql">
+        <if test="pageOffset!=null">
+            limit #{pageOffset}, #{pageSize}
+        </if>
+    </sql>
+
+
+
+</mapper>

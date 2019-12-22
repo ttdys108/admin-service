@@ -1,0 +1,39 @@
+server:
+  port: 8889
+
+spring:
+  application:
+    name: admin-service
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    default-property-inclusion: non_null
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://121.36.137.124:3306/test_db
+    username: tyuiop
+    password: 0okm(IJN
+    initialSize: 2
+    minIdle: 2
+    maxActive: 50
+    maxWait: 10000
+  redis:
+    host: 121.36.137.124
+    password: tyuiop
+    jedis:
+      pool:
+        max-active: 20
+
+mybatis:
+  mapper-locations: classpath:/mapper/*.xml
+
+redis:
+  key:
+    login-token: _login_token
+
+encrypt:
+  secret: dontworrybehappy
+
+login:
+  token:
+    expires: 1800000
