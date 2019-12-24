@@ -12,6 +12,20 @@
         <result column="update_time" property="updateTime"/>
     </resultMap>
 
+    <insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true" >
+        insert into tbl_dict(dict_key, dict_value, lang, description) values
+        <foreach collection="list" item="dict" separator=",">
+            (#{dict.key}, #{dict.value}, #{dict.locale}, #{dict.desc})
+        </foreach>
+    </insert>
+
+    <update id="batchUpdate" parameterType="java.util.List" >
+        <foreach collection="list" item="dict" separator=";">
+            update tbl_dict set dict_value=#{dict.value}, description=#{dict.desc}
+            where dict_key=#{dict.key} and lang=#{dict.locale}
+        </foreach>
+    </update>
+
     <select id="query" parameterType="com.example.admin.data.vo.DictionaryVO" resultMap="dictionaryMap">
         select * from tbl_dict
         <include refid="searchSql" />
@@ -19,8 +33,8 @@
         <include refid="limitSql" />
     </select>
 
-    <select id="queryCount" parameterType="com.example.admin.data.vo.ConfigVO" resultType="long">
-        select count(1) from tbl_config
+    <select id="queryCount" parameterType="com.example.admin.data.vo.DictionaryVO" resultType="long">
+        select count(1) from tbl_dict
         <include refid="searchSql" />
     </select>
 
@@ -28,7 +42,7 @@
         <where>
             <if test="query!=null">
                 and <![CDATA[
-                    (dict_key like '%#{query}%' or dict_value like '%#{query}%' or description like '%#{query}%')
+                    (dict_key like CONCAT('%',#{query},'%') or dict_value like CONCAT('%',#{query},'%') or description like CONCAT('%',#{query},'%'))
                 ]]>
             </if>
         </where>

@@ -12,4 +12,7 @@ public interface DictionaryMapper extends Mapper<Dictionary> {
 
     Long queryCount(DictionaryVO dictionaryVO);
 
+    void batchInsert(List<Dictionary> list);
+
+    void batchUpdate(List<Dictionary> list);
 }

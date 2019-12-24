@@ -10,7 +10,7 @@ spring:
     default-property-inclusion: non_null
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://121.36.137.124:3306/test_db
+    url: jdbc:mysql://121.36.137.124:3306/test_db?useUnicode=true&characterEncoding=utf-8&rewriteBatchedStatements=true&allowMultiQueries=true
     username: tyuiop
     password: 0okm(IJN
     initialSize: 2

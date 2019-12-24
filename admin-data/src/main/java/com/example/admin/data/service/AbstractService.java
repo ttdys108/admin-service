@@ -17,6 +17,11 @@ public abstract class AbstractService<M extends Mapper<T>, T> {
         return Response.success(result);
     }
 
+    public Response<List<T>> query(T t) {
+        List<T> res = mapper.select(t);
+        return Response.success(res);
+    }
+
     public Response<List<T>> queryAll() {
         List<T> result = mapper.selectAll();
         return Response.success(result);
@@ -25,6 +30,11 @@ public abstract class AbstractService<M extends Mapper<T>, T> {
     public Response<List<T>> queryByExample(Example example) {
         List<T> result = mapper.selectByExample(example);
         return Response.success(result);
+    }
+
+    public Response<Integer> delete(T t) {
+        Integer res = mapper.delete(t);
+        return Response.success(res);
     }
 
 }
