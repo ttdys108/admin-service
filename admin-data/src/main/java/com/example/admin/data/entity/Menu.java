@@ -15,23 +15,31 @@ public class Menu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private Long id;
 
+    @Column
     private String code;
 
+    @Column
     private String auth;
 
     @Column(name = "description")
     private String desc;
 
+    @Column
     private Long parent;
 
+    @Column
     private String path;
 
+    @Column
     private Status status;
 
+    @Column
     private String icon;
 
+    @Column
     private Integer priority;
 
     @Column(name = "create_time")

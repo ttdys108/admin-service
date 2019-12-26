@@ -37,4 +37,14 @@ public abstract class AbstractService<M extends Mapper<T>, T> {
         return Response.success(res);
     }
 
+    public Response<Integer> deleteByPrimaryKey(Object key) {
+        Integer res = mapper.deleteByPrimaryKey(key);
+        return Response.success(res);
+    }
+
+    public Response<Integer> create(T t) {
+        Integer res = mapper.insertSelective(t);
+        return Response.success(res);
+    }
+
 }
