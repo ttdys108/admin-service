@@ -3,12 +3,14 @@ package com.example.admin.data.service;
 import com.example.admin.data.entity.Login;
 import com.example.admin.data.entity.LoginType;
 import com.example.admin.data.entity.User;
+import com.example.admin.data.entity.UserStatus;
 import com.example.admin.data.mapper.UserMapper;
 import com.ttdys108.commons.exception.ErrorCode;
 import com.ttdys108.commons.exception.ServiceException;
 import com.ttdys108.commons.http.Response;
 import com.ttdys108.commons.utils.CollectionUtils;
 import com.ttdys108.commons.utils.JWTUtils;
+import com.ttdys108.commons.utils.MD5Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,9 +42,11 @@ public class LoginService {
             User example = new User();
             example.setUsername(login.getUsername());
             User exists = userMapper.selectOne(example);
-            if(exists == null || !exists.getPassword().equals(login.getPassword())) {
+            if(exists == null || !MD5Utils.verify(login.getPassword(), exists.getPassword(), secret)) {
                 return Response.error(ErrorCode.LOGIN_VERIFY_FAIL);
-            } else {
+            } else if(exists.getStatus() == UserStatus.FROZEN || exists.getStatus() == UserStatus.DELETED) {
+                return Response.error(ErrorCode.ILLEGAL_STATUS);
+            } else { //登录成功，生成jwt token
                 Map<String, String> params = CollectionUtils.ofMap("userId", exists.getId().toString());
                 Integer expires = (Boolean.TRUE.equals(login.getRememberMe()) ? null : tokenExpires);
                 String token = JWTUtils.generate(secret, expires, params);
@@ -72,7 +76,8 @@ public class LoginService {
         if(login.getType() == LoginType.USERNAME) {
             User user = new User();
             user.setUsername(login.getUsername());
-            user.setPassword(login.getPassword());
+            String encryptPwd = MD5Utils.encode(login.getPassword(), secret);
+            user.setPassword(encryptPwd);
             userMapper.insertSelective(user);
             Map<String, String> params = CollectionUtils.ofMap("userId", user.getId().toString());
             String token = JWTUtils.generate(secret, tokenExpires, params);

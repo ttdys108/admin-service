@@ -23,6 +23,8 @@ spring:
     jedis:
       pool:
         max-active: 20
+  mvc:
+    static-path-pattern: /static/**
 
 mybatis:
   mapper-locations: classpath:/mapper/*.xml
@@ -37,3 +39,16 @@ encrypt:
 login:
   token:
     expires: 1800000
+
+---
+spring:
+  profiles: default, dev
+  resources:
+    static-locations: file:C:\Users\ttdys\Desktop
+
+---
+spring:
+  profiles: test, prod
+  resources:
+    static-locations: file:/data/static
+

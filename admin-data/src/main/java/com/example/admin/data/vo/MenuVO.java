@@ -39,4 +39,7 @@ public class MenuVO {
 
     private List<MenuVO> children;
 
+    //权限
+    private int grants;
+
 }

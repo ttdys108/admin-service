@@ -5,42 +5,27 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @Setter
-@Table(name = "tbl_menu")
 @Entity
-public class Menu {
+@Table(name = "tbl_authr")
+public class Authorize {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
 
-    @Column
-    private String code;
+    @Column(name = "user_id")
+    private Long userId;
 
+    //menu path
     @Column
-    private String auth;
+    private String resource;
 
-    @Column(name = "description")
-    private String desc;
-
-    @Column
-    private Long parent;
-
-    @Column
-    private String path;
-
-    @Column
-    private Status status;
-
-    @Column
-    private String icon;
-
-    @Column
-    private Integer priority;
+    @Column(name = "authr")
+    private Integer grants;
 
     @Column(name = "create_time")
     private Date createTime;

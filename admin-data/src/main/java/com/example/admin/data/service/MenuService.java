@@ -3,10 +3,13 @@ package com.example.admin.data.service;
 import com.example.admin.data.entity.ActionType;
 import com.example.admin.data.entity.Menu;
 import com.example.admin.data.mapper.MenuMapper;
+import com.example.admin.data.vo.MenuVO;
 import com.ttdys108.commons.exception.ErrorCode;
 import com.ttdys108.commons.exception.ServiceException;
 import com.ttdys108.commons.http.Response;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.swing.*;
@@ -21,18 +24,25 @@ public class MenuService extends AbstractService<MenuMapper, Menu> {
      * 返回顶层menu树
      * @return menu
      */
-    public Response<List<Menu>> queryAll() {
-        List<Menu> result = new ArrayList<>();
+    public Response<List<MenuVO>> queryMenus() {
+        List<MenuVO> result = new ArrayList<>();
+        List<MenuVO> voList = new ArrayList<>();
         List<Menu> menus = mapper.selectAll();
         menus.forEach(menu -> {
-            if(menu.getParent() == null) {
-                result.add(menu); //result只返回顶层menulist
+            MenuVO vo = new MenuVO();
+            BeanUtils.copyProperties(menu, vo);
+            voList.add(vo);
+        });
+        //build tree
+        voList.forEach(vo -> {
+            if(vo.getParent() == null) {
+                result.add(vo); //result只返回顶层menulist
             } else {
-                for(Menu m : menus) {
-                    if(m.getId().equals(menu.getParent())) {
-                        if(m.getChildren() == null)
-                            m.setChildren(new ArrayList<>());
-                        m.getChildren().add(menu);
+                for(MenuVO v : voList) {
+                    if(v.getId().equals(vo.getParent())) {
+                        if(v.getChildren() == null)
+                            v.setChildren(new ArrayList<>());
+                        v.getChildren().add(vo);
                         break;
                     }
                 }

@@ -1,53 +1,39 @@
-package com.example.admin.data.entity;
+package com.example.admin.data.vo;
 
+import com.example.admin.data.entity.UserStatus;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
 import java.util.Date;
 
 @Getter
 @Setter
-@Entity
-@Table(name = "tbl_user")
-public class User {
+public class UserVO extends AbstractVO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
     private Long id;
 
-    @Column
     private String username;
 
-    @Column
     private String password;
 
-    @Column
     private String account;
 
-    @Column
     private String avatar;
 
-    @Column
     private String nickname;
 
-    @Column
     private String mobile;
 
-    @Column
     private String email;
 
-    @Column
     private UserStatus status;
 
-    @Column(name = "device_id")
     private String deviceId;
 
-    @Column(name = "create_time")
     private Date createTime;
 
-    @Column(name = "update_time")
     private Date updateTime;
+
 
 }

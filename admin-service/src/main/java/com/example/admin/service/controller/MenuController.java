@@ -25,9 +25,9 @@ public class MenuController {
     MenuService menuService;
 
     @GetMapping("/menu/all")
-    public Response<List<Menu>> queryAll() {
+    public Response<List<MenuVO>> queryAll() {
 
-        return menuService.queryAll();
+        return menuService.queryMenus();
     }
 
     @GetMapping("/menu/status")

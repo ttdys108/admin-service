@@ -47,4 +47,9 @@ public abstract class AbstractService<M extends Mapper<T>, T> {
         return Response.success(res);
     }
 
+    public Response<Integer> update(T t) {
+        Integer res = mapper.updateByPrimaryKeySelective(t);
+        return Response.success(res);
+    }
+
 }
