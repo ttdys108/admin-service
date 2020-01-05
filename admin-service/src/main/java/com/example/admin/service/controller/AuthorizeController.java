@@ -10,6 +10,7 @@ import com.ttdys108.commons.exception.ServiceException;
 import com.ttdys108.commons.http.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +27,6 @@ public class AuthorizeController {
 
     @GetMapping("/authr/query")
     public Response<List<Authorize>> queryAuthors(Long userId) {
-
         return authorizeService.queryAuthorizes(userId);
     }
 
