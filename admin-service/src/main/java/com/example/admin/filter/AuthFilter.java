@@ -10,13 +10,30 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 @WebFilter("/*")
 public class AuthFilter extends OncePerRequestFilter {
 
+    static final Set<String> publicPaths;
+
+    static {
+        publicPaths = new HashSet<>();
+        publicPaths.add("/login");
+        publicPaths.add("/register");
+        publicPaths.add("/vcode");
+    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
+        String url = httpServletRequest.getRequestURI();
+        if(publicPaths.contains(url)) {
+            filterChain.doFilter(httpServletRequest, httpServletResponse);
+            return;
+        }
+
         String token = httpServletRequest.getHeader("Authorization");
         if(StringUtils.isBlank(token)) {
             httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
