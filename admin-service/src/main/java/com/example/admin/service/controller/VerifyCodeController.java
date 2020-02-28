@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
+import java.util.Set;
 
 @Slf4j
 @Controller
@@ -36,9 +38,12 @@ public class VerifyCodeController {
             {206, 197, 30},
     };
 
+    //TODO just for test
+    public static String DISTRIBUTED_CODE;
+
     @GetMapping("/vcode")
     @ResponseBody
-    public void getVerifyCode(HttpServletResponse response) {
+    public void getVerifyCode(HttpServletResponse response, HttpSession session) {
         //定义图像buffer
         BufferedImage buffImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics gd = buffImg.getGraphics();
@@ -50,8 +55,10 @@ public class VerifyCodeController {
         Font font = new Font("Consolas", Font.PLAIN, fontHeight);
         gd.setFont(font);
         // 验证码
-        String vocde = getRandomCode();
-        setValidateCodeColor(vocde, width, height, fontWidth, gd);
+        String vcode = getRandomCode();
+        DISTRIBUTED_CODE = vcode;
+//        session.setAttribute("vcode", vcode);
+        setValidateCodeColor(vcode, width, height, fontWidth, gd);
 
         response.setHeader("Pragma", "no-cache");
         response.setHeader("Cache-Control", "no-cache");

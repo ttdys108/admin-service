@@ -17,7 +17,7 @@ public class Login {
 
     private String mobile;
 
-    private String verifyCode;
+    private String vcode;
 
     private Boolean rememberMe;
 
