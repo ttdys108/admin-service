@@ -13,8 +13,8 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-@Component
-@WebFilter("/*")
+//@Component
+//@WebFilter("/*")
 public class AuthFilter extends OncePerRequestFilter {
 
     static final Set<String> publicPaths;
