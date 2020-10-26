@@ -22,8 +22,9 @@ public class RedisConfigure {
         redisTemplate.setConnectionFactory(connectionFactory);
 
         // 设置key和value的序列化规则
-        redisTemplate.setValueSerializer(RedisSerializer.json());
         redisTemplate.setKeySerializer(RedisSerializer.string());
+        redisTemplate.setValueSerializer(RedisSerializer.json());
+        redisTemplate.setHashValueSerializer(RedisSerializer.json());
         redisTemplate.afterPropertiesSet();
         return redisTemplate;
     }

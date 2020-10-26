@@ -20,7 +20,7 @@ import java.util.Set;
 public class VerifyCodeController {
 
     private static final Random random = new Random(47);
-    private static final int width = 100;
+    private static final int width = 130;
     private static final int height = 40;
     private static final int fontHeight = 37;
     private static final double fontWidth = 1.3;
